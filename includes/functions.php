@@ -69,21 +69,34 @@ function check_login($dbc, $dni = '', $pass = '') {
 
 } // End of check_login() function.
 
+
+
+
 //Next and previos month on calendar
  function nextMonth()
 {
-	
-   	$month= date ("m") +1;
+echo " Next month";
+$month= date ("m") + 1;
 	$year=date("Y");
 	$day=date("d");
-	$endDate=date("t",mktime(0,0,0,$month +1,$day,$year));
+	$endDate=date("t",mktime(0,0,0,$month,$day,$year));
+
+
+
+return $month;
 
 	
-	$date= date("Y-m", mktime(0, 0, 0, $month+1, 1, $year));
-	echo $month;
-	return $date;
-	return $month;
-	return $year;
+
+}
+
+ function prevMonth()
+{
+echo "Prev MOnth";
+$month= date ("m") -1;
+echo $month;
+
+return $month;
+	
 
 }
 
