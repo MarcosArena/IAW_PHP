@@ -7,6 +7,9 @@
 Los usuarios pueden ver las tarea y "precerrarlas" UPTADATE de STATE => "Finished" 
 
 <?php
+//incluir header
+include '../includes/header.php';
+//Start web
 $page_title = 'View the department tasks';
 echo '<h1>Department tasks</h1>';
 require ('../includes/mysqli_connect.php');
