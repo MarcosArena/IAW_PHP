@@ -70,8 +70,6 @@ function check_login($dbc, $dni = '', $pass = '') {
 } // End of check_login() function.
 
 
-
-
 //Next and previos month on calendar
  function nextMonth()
 {
@@ -80,23 +78,148 @@ $month= date ("m") + 1;
 	$year=date("Y");
 	$day=date("d");
 	$endDate=date("t",mktime(0,0,0,$month,$day,$year));
-
-
-
-return $month;
-
-	
-
+	return $month;
 }
 
- function prevMonth()
-{
+function prevMonth(){
 echo "Prev MOnth";
 $month= date ("m") -1;
 echo $month;
-
 return $month;
+}
+
+
+//Employees LIST
+function empList()
+{
+	$page_title = 'View the Current Users';
+
+echo '<h1>Registered Users</h1>';
+
+require ('../includes/mysqli_connect.php');
+		
+// Define the query:
+$q = 	"SELECT e.DNI, e.Name, e.Surname, e.Email, e.TelePhone, d.Name, e.role FROM employees AS e 
+		INNER JOIN department as d 
+		ON e.Code_Dep = d.Code ORDER BY e.DNI ";	
+
+$r = @mysqli_query ($dbc, $q);
+
+// Count the number of returned rows:
+$num = mysqli_num_rows($r);
+
+if ($num > 0) { // If it ran OK, display the records.
+
+	// Print how many users there are:
+	echo "<p>There are currently $num registered users.</p>\n";
+
+	// Table header:
+	echo '<link rel="stylesheet" href="../style/users_data.css">
+	<form method="POST" action="emp_management.php">
+	<table id="hor-minimalist-a" align="center">
+	<tr>
+		
+		<td align="left"><b> DNI </b></td>
+		<td align="left"><b> Name </b></td>
+		<td align="left"><b> Surname </b></td>
+		<td align="left"><b> Email </b></td>
+		<td align="left"><b> Phone </b></td>
+		<td align="left"><b> Department </b></td>	
+		<td align="left"><b> Role </b></td>	
+		<td align="left"><b>  </b></td>
+	</tr>
+';
 	
+	// Fetch and print all the records:
+	while ($row = mysqli_fetch_array($r, MYSQLI_NUM)) {
+		echo '<tr>			
+			<td align="left">' . $row[0] . '</td>
+			<td align="left">' . $row[1] . '</td>
+			<td align="left">' . $row[2] . '</td>
+			<td align="left">' . $row[3] . '</td>
+			<td align="left">' . $row[4] . '</td>
+			<td align="left">' . $row[5] . '</td>
+			<td align="left">' . $row[6] . '</td>
+			<td align="left"><input type="submit" class="button" value="Edit"></td>	
+		</tr>
+		';
+	}
+
+	echo '</table></form>';
+	mysqli_free_result ($r);	
+
+} else { // If no records were returned.
+	echo '<p class="error">There are currently no registered users.</p>';
+}
+
+mysqli_close($dbc);
+}
+
+
+//LIST ALL TASKS
+function see_tasks($dni) {
+	$page_title = 'View all tasks';
+	echo '<h1>Tasks</h1>';
+
+	require ('../includes/mysqli_connect.php');
+		
+// Define the query:
+	$q = 	"SELECT t.Name, t.Description, t.Time_Start, t.State, e.Name, d.Name AS EMP FROM tasks AS t INNER JOIN employees as e 
+	ON t.Employee = e.DNI 
+	INNER JOIN department as d 
+		ON e.Code_Dep = d.Code ORDER BY e.DNI ";
+	
+
+$r = @mysqli_query ($dbc, $q);
+
+// Count the number of returned rows:
+$num = mysqli_num_rows($r);
+
+if ($num > 0) { // If it ran OK, display the records.
+
+	// Print how many users there are:
+	echo "<p>There are currently $num registered users.</p>\n";
+
+	// Table header:
+	echo '<link rel="stylesheet" href="../style/users_data.css">
+	<form method="POST" action="emp_management.php">
+	<table id="hor-minimalist-a" align="center">
+	<tr>
+		
+		<td align="left"><b> Task </b></td>
+		<td align="left"><b> Description </b></td>
+		<td align="left"><b> Start time </b></td>
+		<td align="left"><b> State </b></td>
+		<td align="left"><b> Phone </b></td>
+		<td align="left"><b> Department </b></td>	
+		<td align="left"><b> Role </b></td>	
+		<td align="left"><b>  </b></td>
+	</tr>
+';
+	
+	// Fetch and print all the records:
+	while ($row = mysqli_fetch_array($r, MYSQLI_NUM)) {
+		echo '<tr>			
+			<td align="left">' . $row[0] . '</td>
+			<td align="left">' . $row[1] . '</td>
+			<td align="left">' . $row[2] . '</td>
+			<td align="left">' . $row[3] . '</td>
+			<td align="left">' . $row[4] . '</td>
+			<td align="left">' . $row[5] . '</td>
+			<td align="left">' . $row[6] . '</td>
+			<td align="left"><input type="submit" class="button" value="Edit"></td>	
+		</tr>
+		';
+	}
+
+	echo '</table></form>';
+	mysqli_free_result ($r);	
+
+} else { // If no records were returned.
+	echo '<p class="error">There are currently no registered users.</p>';
+}
+
+mysqli_close($dbc);
 
 }
 
