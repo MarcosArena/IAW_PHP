@@ -89,12 +89,36 @@ return $month;
 }
 
 
-//Employees LIST
+//Insert User
+function insertUser($dni, $name, $surname, $email, $telephone, $password, $code_dep, $role)
+{
+	$page_title = 'Insert new employee.';
+	require ('../includes/mysqli_connect.php');
+		
+	// Define the query:
+	$q = 	"INSERT INTO `employees`(`DNI`, `Name`, `Surname`, `Email`, `TelePhone`, `Password`, `Code_Dep`, `role`) 
+	VALUES ('$dni', '$name', '$surname', '$email', '$telephone', sha1('$password'), $code_dep, '$role') ";	
+
+if (mysqli_query($dbc, $q)) {
+    echo "New record created successfully";
+
+	
+} else {
+    echo "Error: " . $q . "<br>" . mysqli_error($dbc);
+}
+
+mysqli_close($dbc);
+}
+
+
+
 function empList()
 {
+	
 	$page_title = 'View the Current Users';
 
 echo '<h1>Registered Users</h1>';
+
 
 require ('../includes/mysqli_connect.php');
 		
@@ -112,6 +136,13 @@ if ($num > 0) { // If it ran OK, display the records.
 
 	// Print how many users there are:
 	echo "<p>There are currently $num registered users.</p>\n";
+
+	if ($_SESSION['role']="staff_manager") {?>
+			<li><a href="#"  onclick=window.open('./insertuser.php','ventana','width=640,height=600');
+			>Insert User</a></li>
+			<li><a href="#" onclic="header('location:pagina.php')">Refresh</a></li>
+		<?php
+		}
 
 	// Table header:
 	echo '<link rel="stylesheet" href="../style/users_data.css">
