@@ -1,10 +1,19 @@
 
 <html>
 <head>
-
 <?php 
-
+ 
 session_start(); // Start the session.
+include ('./header.php');
+
+?>
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/logo-nav.css" rel="stylesheet">
+<link href="css/bootstrap.css" rel="stylesheet">
+
+
+<?php
 
 // If no session value is present, redirect the user:
 if (!isset($_SESSION['dni'])) {
@@ -16,21 +25,23 @@ if (!isset($_SESSION['dni'])) {
 }
 
 else {
-    // Set the page title and include the HTML header:
+
+    // Set the page title 
 $dni = $_SESSION['dni'];
 $name = $_SESSION['name'];
 $role = $_SESSION['role'];
+$dep = $_SESSION['code_dep'];
 
 $page_title = 'Logged In!';
 
 
 //We check the user ROLE
 
-include ('includes/header.html');    
+  
 
 // Print a customized message:
 echo "<h1>Logged In!</h1>
-<p>Welcome $name, you are now logged in. Your DNI is: $dni and your role is $role</p>";
+<p>Welcome $name, you are now logged in. Your DNI is: $dni and your role is $role $dep</p>";
 
 }
 
