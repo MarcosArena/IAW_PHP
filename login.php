@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['pass'] = $data['Password'];
 		$_SESSION['name'] = $data['Name'];
 		$_SESSION['role'] = $data['role'];
+		$_SESSION['code_dep'] = $data['Code_Dep'];
 		
 			
 		// Redirect:
