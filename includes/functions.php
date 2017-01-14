@@ -46,7 +46,7 @@ function check_login($dbc, $dni = '', $pass = '') {
 	if (empty($errors)) { // If everything's OK.
 
 		// Retrieve the user_id and first_name for that email/password combination:
-		$q = "SELECT DNI, Name, role FROM employees WHERE DNI='$e' AND Password='$p'";		
+		$q = "SELECT DNI, Name, Code_Dep, role FROM employees WHERE DNI='$e' AND Password='$p'";		
 		$r = @mysqli_query ($dbc, $q); // Run the query.
 		
 		// Check the result:
@@ -68,25 +68,6 @@ function check_login($dbc, $dni = '', $pass = '') {
 	return array(false, $errors);
 
 } // End of check_login() function.
-
-
-//Next and previos month on calendar
- function nextMonth()
-{
-echo " Next month";
-$month= date ("m") + 1;
-	$year=date("Y");
-	$day=date("d");
-	$endDate=date("t",mktime(0,0,0,$month,$day,$year));
-	return $month;
-}
-
-function prevMonth(){
-echo "Prev MOnth";
-$month= date ("m") -1;
-echo $month;
-return $month;
-}
 
 
 //Insert User
@@ -111,14 +92,9 @@ mysqli_close($dbc);
 }
 
 
-
-function empList()
-{
+function empList(){
 	
-	$page_title = 'View the Current Users';
-
 echo '<h1>Registered Users</h1>';
-
 
 require ('../includes/mysqli_connect.php');
 		
@@ -140,7 +116,7 @@ if ($num > 0) { // If it ran OK, display the records.
 	if ($_SESSION['role']="staff_manager") {?>
 			<li><a href="#"  onclick=window.open('./insertuser.php','ventana','width=640,height=600');
 			>Insert User</a></li>
-			<li><a href="#" onclic="header('location:pagina.php')">Refresh</a></li>
+			<li><a href="#" onclick="header('Refresh:0; url='./emp_edit.php');">Refresh</a></li>
 		<?php
 		}
 
@@ -161,6 +137,8 @@ if ($num > 0) { // If it ran OK, display the records.
 	</tr>
 ';
 	
+
+
 	// Fetch and print all the records:
 	while ($row = mysqli_fetch_array($r, MYSQLI_NUM)) {
 		echo '<tr>			
@@ -170,8 +148,15 @@ if ($num > 0) { // If it ran OK, display the records.
 			<td align="left">' . $row[3] . '</td>
 			<td align="left">' . $row[4] . '</td>
 			<td align="left">' . $row[5] . '</td>
-			<td align="left">' . $row[6] . '</td>
-			<td align="left"><input type="submit" class="button" value="Edit"></td>	
+			<td align="left">' . $row[6] . '</td>';
+
+			$id=$row[0];
+			if ($_SESSION['role']="staff_manager") {
+				echo '<td align="left"><a href="../menus/emp_edit.php?id=' . $row[0] . '" target="_new">Edit</a></td>';
+			
+		
+		}
+			echo '
 		</tr>
 		';
 	}
@@ -237,10 +222,9 @@ if ($num > 0) { // If it ran OK, display the records.
 			<td align="left">' . $row[3] . '</td>
 			<td align="left">' . $row[4] . '</td>
 			<td align="left">' . $row[5] . '</td>
-			<td align="left">' . $row[6] . '</td>
-			<td align="left"><input type="submit" class="button" value="Edit"></td>	
-		</tr>
-		';
+			<td align="left">' . $row[6] . '</td>';
+			
+			echo'</tr>';
 	}
 
 	echo '</table></form>';
@@ -255,3 +239,4 @@ mysqli_close($dbc);
 }
 
 ?>
+
