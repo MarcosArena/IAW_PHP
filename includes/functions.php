@@ -18,13 +18,7 @@ function redirect_user ($page = 'login.php') {
 
 } // End of redirect_user() function.
 
-/* This function validates the form data (the email address and password).
- * If both are present, the database is queried.
- * The function requires a database connection.
- * The function returns an array of information, including:
- * - a TRUE/FALSE variable indicating success
- * - an array of either errors or the database result
- */
+
 function check_login($dbc, $dni = '', $pass = '') {
 
 	$errors = array(); // Initialize error array.
@@ -94,14 +88,14 @@ mysqli_close($dbc);
 
 function empList(){
 	
-echo '<h1>Registered Users</h1>';
+echo '<h2>Employees list</h2>';
 
 require ('../includes/mysqli_connect.php');
 		
 // Define the query:
 $q = 	"SELECT e.DNI, e.Name, e.Surname, e.Email, e.TelePhone, d.Name, e.role FROM employees AS e 
 		INNER JOIN department as d 
-		ON e.Code_Dep = d.Code ORDER BY e.DNI ";	
+		ON e.Code_Dep = d.Code ORDER BY e.DNI";	
 
 $r = @mysqli_query ($dbc, $q);
 
@@ -111,21 +105,21 @@ $num = mysqli_num_rows($r);
 if ($num > 0) { // If it ran OK, display the records.
 
 	// Print how many users there are:
-	echo "<p>There are currently $num registered users.</p>\n";
-
-	if ($_SESSION['role']="staff_manager") {?>
-			<li><a href="#"  onclick=window.open('./insertuser.php','ventana','width=640,height=600');
-			>Insert User</a></li>
-			<li><a href="#" onclick="header('Refresh:0; url='./emp_edit.php');">Refresh</a></li>
-		<?php
-		}
+	echo "<li>There are currently $num employees.</li>\n";
 
 	// Table header:
 	echo '<link rel="stylesheet" href="../style/users_data.css">
-	<form method="POST" action="emp_management.php">
+	<form method="POST" action="emp_list.php">
 	<table id="hor-minimalist-a" align="center">
-	<tr>
-		
+	';
+	if ($_SESSION['role']="staff_manager") {?>
+			<td><input type="submit" value="Insert User"  onclick=window.open('./insertuser.php','ventana','width=640,height=600');></td>	
+		<?php
+		} 
+	echo ' 
+	
+	<td><input type="submit" value="Refresh"></td>
+	<tr>		
 		<td align="left"><b> DNI </b></td>
 		<td align="left"><b> Name </b></td>
 		<td align="left"><b> Surname </b></td>
@@ -133,12 +127,13 @@ if ($num > 0) { // If it ran OK, display the records.
 		<td align="left"><b> Phone </b></td>
 		<td align="left"><b> Department </b></td>	
 		<td align="left"><b> Role </b></td>	
-		<td align="left"><b>  </b></td>
+		
+		<td align="right"><b>';  
+		
+		echo '</b></td>
 	</tr>
 ';
 	
-
-
 	// Fetch and print all the records:
 	while ($row = mysqli_fetch_array($r, MYSQLI_NUM)) {
 		echo '<tr>			
@@ -149,16 +144,14 @@ if ($num > 0) { // If it ran OK, display the records.
 			<td align="left">' . $row[4] . '</td>
 			<td align="left">' . $row[5] . '</td>
 			<td align="left">' . $row[6] . '</td>';
-
+			
 			$id=$row[0];
 			if ($_SESSION['role']="staff_manager") {
-				echo '<td align="left"><a href="../menus/emp_edit.php?id=' . $row[0] . '" target="_new">Edit</a></td>';
-			
+				//We open a new window, passing the DNI as a GET parameter, we'll us it in the WHERE clause'
+				echo '<td align="left"><a href="../menus/emp_edit.php?id=' . $row[0] . '" target="_new">Edit</a></td>';			
 		
 		}
-			echo '
-		</tr>
-		';
+			echo '</tr>';
 	}
 
 	echo '</table></form>';
