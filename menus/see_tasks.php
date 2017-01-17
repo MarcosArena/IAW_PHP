@@ -16,13 +16,6 @@ else {
 	echo '<h1>Department tasks</h1>';
 	require ('../includes/mysqli_connect.php');
 
-	//insert tasks
-		if ($_SESSION['role']="dep_boss") {?>
-			<li><a href="#"  onclick=window.open('./inserttask.php','ventana','width=640,height=600');
-			>Insert tasks</a></li>
-			<li><a href="#" onclic="header('location:pagina.php')">Refresh</a></li>
-		<?php
-		}
 	// Define the select query:
 	$q = "SELECT t.ID, t.Name, t.Description, t.Time_Start, t.Time_Finish, t.State, e.Name, d.Name FROM tasks AS t 
 		  INNER JOIN department as d  ON t.Department = d.Code
@@ -43,9 +36,11 @@ else {
 			// Table header:
 			echo '<link rel="stylesheet" href="../style/users_data.css">
 			
-			<table id="hor-minimalist-a" align="center">
+			<table id="hor-minimalist-a" align="center">' ?>
+			<td><input type="submit" value="Insert Task"  onclick=window.open('./inserttask.php','ventana','width=640,height=600');></td>
+			<?php
+			echo '<td><input type="submit" value="Refresh"></td>
 			<tr>
-
 				<td align="center"><b>ID</b></td>
 				<td align="center"><b> Name</b></td>
 				<td align="center"><b> Description</b></td>
@@ -63,7 +58,7 @@ else {
 				if('Pending' == $row[5]){
 					echo '<tr>
 
-					<td align="left">' . $row[0] . '</td>
+					<td align="center">' . $row[0] . '</td>
 					<td align="left">' . $row[1] . '</td>
 					<td align="left">' . $row[2] . '</td>
 					<td align="left">' . $row[3] . '</td>
@@ -78,7 +73,7 @@ else {
 				elseif ('Finished' == $row[5]){
 					echo '<tr>
 
-					<td align="left">' . $row[0] . '</td>
+					<td align="center">' . $row[0] . '</td>
 					<td align="left">' . $row[1] . '</td>
 					<td align="left">' . $row[2] . '</td>
 					<td align="left">' . $row[3] . '</td>
@@ -93,7 +88,7 @@ else {
 				else{
 					echo '<tr>
 
-					<td align="left">' . $row[0] . '</td>
+					<td align="center">' . $row[0] . '</td>
 					<td align="left">' . $row[1] . '</td>
 					<td align="left">' . $row[2] . '</td>
 					<td align="left">' . $row[3] . '</td>
@@ -135,7 +130,7 @@ else {
 				if('Pending' == $row[5]){
 					echo '<tr>
 
-					<td align="left">' . $row[0] . '</td>
+					<td align="center">' . $row[0] . '</td>
 					<td align="left">' . $row[1] . '</td>
 					<td align="left">' . $row[2] . '</td>
 					<td align="left">' . $row[3] . '</td>
@@ -148,7 +143,7 @@ else {
 				elseif ('Finished' == $row[5]){
 					echo '<tr>
 
-					<td align="left">' . $row[0] . '</td>
+					<td align="center">' . $row[0] . '</td>
 					<td align="left">' . $row[1] . '</td>
 					<td align="left">' . $row[2] . '</td>
 					<td align="left">' . $row[3] . '</td>
@@ -161,7 +156,7 @@ else {
 				else{
 					echo '<tr>
 
-					<td align="left">' . $row[0] . '</td>
+					<td align="center">' . $row[0] . '</td>
 					<td align="left">' . $row[1] . '</td>
 					<td align="left">' . $row[2] . '</td>
 					<td align="left">' . $row[3] . '</td>
@@ -187,7 +182,5 @@ else {
 	}
 	mysqli_close($dbc);
 }
-
-
 
 ?>
