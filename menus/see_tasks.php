@@ -50,7 +50,8 @@ else {
 				<td align="center"><b> Employee</b></td>	
 				<td align="center"><b> Department</b></td>
 				<td align="center"><b>Close Task</b></td>
-				<td align="center"><b> Delete Task</b></td>			
+				<td align="center"><b> Delete Task</b></td>	
+				<td align="center"><b> Edit</b></td>		
 			</tr>';
 
 			// Fetch and print all the records:
@@ -68,6 +69,7 @@ else {
 					<td align="left">' . $row[7] . '</td>
 					<td align="left"><a href="confirm_close_task.php?id=' . $row[0] . '">Confirm Close</a></td>
 					<td align="left"><a href="delete_task.php?id=' . $row[0] . '">Delete Task</a></td>
+					<td align="left"><a href="task_edit.php?id=' . $row[0] . '">Edit</a></td>
 				</tr>';
 				}
 				elseif ('Finished' == $row[5]){
@@ -83,6 +85,7 @@ else {
 					<td align="left">' . $row[7] . '</td>
 					<td align="left"></td>
 					<td align="left"><a href="delete_task.php?id=' . $row[0] . '">Delete Task</a></td>
+					<td align="left"><a href="task_edit.php?id=' . $row[0] . '">Edit</a></td>
 				</tr>';
 				}
 				else{
@@ -98,6 +101,7 @@ else {
 					<td align="left">' . $row[7] . '</td>
 					<td align="left"><a href="edit_status_tasks.php?id=' . $row[0] . '">Close Task</a></td>
 					<td align="left"><a href="delete_task.php?id=' . $row[0] . '">Delete Task</a></td>
+					<td align="left"><a href="task_edit.php?id=' . $row[0] . '">Edit</a></td>
 				</tr>';
 				}
 
@@ -182,5 +186,7 @@ else {
 	}
 	mysqli_close($dbc);
 }
+
+
 
 ?>
