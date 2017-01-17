@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-12-2016 a las 20:25:18
+-- Tiempo de generación: 17-01-2017 a las 20:28:14
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 7.0.13
 
@@ -57,7 +57,7 @@ CREATE TABLE `employees` (
   `TelePhone` int(9) NOT NULL,
   `Password` varchar(50) NOT NULL,
   `Code_Dep` int(11) NOT NULL,
-  `role` set('big_boss','dep_boss','employee') NOT NULL
+  `role` set('big_boss','dep_boss','employee','staff_manager') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -65,8 +65,18 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`DNI`, `Name`, `Surname`, `Email`, `TelePhone`, `Password`, `Code_Dep`, `role`) VALUES
+('12345678A', 'Staff', 'Management', 'staffmanagement@gmail.com', 615931548, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 4, 'staff_manager'),
+('12345678C', 'Pepe', 'pepe', 'l@l.com', 665653485, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 2, 'dep_boss'),
+('12345678D', 'joselelelele', 'jose', 'jose@jose.com', 666555888, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 2, 'dep_boss'),
+('12345678E', 'Carlosss', 'Jimenez', 'pepep@pepep.com', 2147483647, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 2, 'dep_boss'),
+('12345678X', 'julian', 'julian', 'julian@uhuh.com', 66565656, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 2, 'employee'),
+('12345678Y', 'juan', 'juan', 'juanjuan@juangmail.com', 665656565, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 2, 'dep_boss'),
+('12345678Z', 'Pepe', 'pepepe', 'papapa@gmail.com', 665656565, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 3, 'employee'),
+('417453917', 'Lluis', 'Oleo', 'lluis@lluis.com', 123456789, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 2, 'dep_boss'),
+('41745391G', 'LLuisa', 'Moll', 'lluis@lluis2.com', 665653485, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 2, 'dep_boss'),
+('41745391K', 'Joan', 'Joan', 'joan@joan.com', 66699966, 'f7c3bc1d808e04732adf679965ccc34ca7ae3441', 2, 'dep_boss'),
 ('41745391T', 'Marcos', 'Arena', 'marenacavaller@gmail.com', 615931540, '32a9f3f6987be377df7bf3a2a9ce0e89f4aa6587', 3, 'dep_boss'),
-('49865860C', 'Sebastian', 'Rodriguez', 'sebanacional@hotmail.com', 662391815, '123456', 1, 'big_boss');
+('49865860C', 'Sebastian', 'Rodriguez', 'sebanacional@hotmail.com', 662391815, '', 1, 'big_boss');
 
 -- --------------------------------------------------------
 
@@ -90,7 +100,10 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`ID`, `Name`, `Description`, `Time_Start`, `Time_Finish`, `State`, `Employee`, `Department`) VALUES
-(1, 'Task1', 'That''s task1... Hurry up', '2016-12-20 20:23:31', '0000-00-00 00:00:00', 'Open', '41745391T', 4);
+(1, 'Task1', 'That''s task1... Hurry up', '2016-12-20 20:23:31', '2017-01-17 17:21:43', 'Pending', '41745391T', 4),
+(2, 'Task255555', 'This is task2...', '2016-12-20 20:34:10', '2017-01-17 17:21:29', 'Finished', '12345678Z', 3),
+(3, 'Task333', 'Task22', '2017-01-17 20:09:31', NULL, 'Open', '12345678D', 2),
+(4, 'Task3334', 'Task22', '2017-01-17 20:10:05', NULL, 'Open', '12345678C', 2);
 
 --
 -- Índices para tablas volcadas
