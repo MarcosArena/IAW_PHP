@@ -24,6 +24,6 @@ $page_title = 'Logged Out!';
 //include ('includes/header.html');
 
 require ('./includes/functions.php');
-redirect_user('login.php');
+redirect_user('./login.php');
 
 ?>

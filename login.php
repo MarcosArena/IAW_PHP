@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 			
 		// Redirect:
-		redirect_user('start.php');
+		redirect_user('./menus/start.php');
 			
 	} else { // Unsuccessful!
 
