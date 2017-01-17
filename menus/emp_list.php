@@ -16,7 +16,12 @@ if (!isset($_SESSION['dni'])) {
 	redirect_user('../login.php');	
 	
 } else { 
-		require ('../includes/functions.php');		
+	require ('../includes/functions.php');		
+	if($_SESSION['role']!="staff_manager") {
+		redirect_user('./start.php');	
+	
+	}
+		
 		//include ('../menus/header.php');
 		emplist();
 		
