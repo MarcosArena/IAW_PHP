@@ -1,6 +1,8 @@
-<?php       
-        session_start();	
-		
+<?php
+ if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +22,7 @@
 
     <!-- Custom CSS -->
     <link href="../css/logo-nav.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
 
  
 
@@ -48,27 +51,31 @@
                 <!--Show different header menu options depending of the role of the person that logged in-->
                 <ul class="nav navbar-nav">
                     <li>
-                        <?php                        
+                        <?php
+                        if(isset($_SESSION['role'])){
                             if($_SESSION['role']=='employee'){ 
+
                                 echo'<a href="./see_tasks.php">See tasks</a>';    
                             }
+
                             else if($_SESSION['role']=='dep_boss'){
+
                                 echo '<a href="./see_tasks.php">See tasks</a>';
                             }
                             else if($_SESSION['role']=='staff_manager') {
-                                
+                                echo '';
                             }
                             else if($_SESSION['role']=='big_boss'){
                                 echo '<a href="./see_tasks.php">See tasks</a>';
                             }
-                        
+                        }
                         ?>
                     </li>
                     <li>
                         <?php
-                       
+                        if(isset($_SESSION['role'])){
                             if($_SESSION['role']=='employee'){
-                                //employee
+                                echo '';
                             }
                             else if($_SESSION['role']=='dep_boss'){
                                 echo '<a href="./emp_list.php">See employees</a>';
@@ -79,9 +86,16 @@
                             else if($_SESSION['role']=='big_boss'){
                                 echo '<a href="./emp_list.php">See employees</a>';
                             }
-                                       
+                        }                    
                         ?>
-                    </li>                    
+                    </li>
+
+                    <li>
+                        <a href="../logout.php">Log out</a>
+                    </li>    
+
+
+                    
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
