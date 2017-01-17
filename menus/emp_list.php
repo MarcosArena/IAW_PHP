@@ -1,6 +1,8 @@
 <?php
-session_start(); // Access the existing session.
-include ('../header.php');
+
+//session_start();
+include ('../menus/header.php');
+
 ?> 
 <link rel="stylesheet" href="../css/bootstrap.css" type="text/css">
 <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
@@ -15,8 +17,9 @@ if (!isset($_SESSION['dni'])) {
 	
 } else { 
 		require ('../includes/functions.php');		
-		include ('../header.php');
+		//include ('../menus/header.php');
 		emplist();
+		
 		// Check if the role is "Staff_Manager" and if it is, we show a Create User Button.	
 		
 }
