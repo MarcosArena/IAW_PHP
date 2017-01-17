@@ -40,7 +40,7 @@ else {
 				// Print a message and start the count redireccion
 				ob_start(); 
 				header("refresh: 3; url = see_tasks.php"); 
-				echo '<p>The task has been closing definitely</p>';
+				echo '<p>The task is closing...</p>';
 				echo 'Wait a moment...'; 
 
 				ob_end_flush();
@@ -69,7 +69,7 @@ else {
 			// Display the record being closed:
 			echo "<h3>Name: $row[1]</h3>
 			
-			Are you sure you want to close definitely this task?";
+			Are you sure you want to end this task?";
 			
 			// Create the form:
 			echo '<form action="confirm_close_task.php" method="post">
