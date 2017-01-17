@@ -65,44 +65,44 @@ function check_login($dbc, $dni = '', $pass = '') {
 
 
 //Insert User
-function insertUser($dni, $name, $surname, $email, $telephone, $password, $code_dep, $role)
-{
+function insertUser($dni, $name, $surname, $email, $telephone, $password, $code_dep, $insrole){
 	$page_title = 'Insert new employee.';
 	require ('../includes/mysqli_connect.php');
+	require('../css/styles.css');
 		
 	// Define the query:
 	$q = 	"INSERT INTO `employees`(`DNI`, `Name`, `Surname`, `Email`, `TelePhone`, `Password`, `Code_Dep`, `role`) 
-	VALUES ('$dni', '$name', '$surname', '$email', '$telephone', sha1('$password'), $code_dep, '$role') ";	
+	VALUES ('$dni', '$name', '$surname', '$email', '$telephone', sha1('$password'), $code_dep, '$insrole') ";	
 
-if (mysqli_query($dbc, $q)) {
-    echo "New record created successfully";
-
+	if (mysqli_query($dbc, $q)) {
+    	echo "New record created successfully";
 	
-} else {
-    echo "Error: " . $q . "<br>" . mysqli_error($dbc);
+	} else {
+    	echo "Error: " . $q . "<br>" . mysqli_error($dbc);
+	}
+	mysqli_close($dbc);
 }
 
-mysqli_close($dbc);
-}
-
-
+//This function lists all registered employees.
 function empList(){
-	
-echo '<h2>Employees list</h2>';
 
-require ('../includes/mysqli_connect.php');
+	//We capture the Role
+	$role = $_SESSION['role'];	
+	echo '<h2>Employees list</h2>';
+
+	require ('../includes/mysqli_connect.php');
 		
-// Define the query:
-$q = 	"SELECT e.DNI, e.Name, e.Surname, e.Email, e.TelePhone, d.Name, e.role FROM employees AS e 
-		INNER JOIN department as d 
-		ON e.Code_Dep = d.Code ORDER BY e.DNI";	
+	// Define the query: We select all fields from Employees database.
+	$q = 	"SELECT e.DNI, e.Name, e.Surname, e.Email, e.TelePhone, d.Name, e.role FROM employees AS e 
+			INNER JOIN department as d 
+			ON e.Code_Dep = d.Code ORDER BY e.DNI";	
 
-$r = @mysqli_query ($dbc, $q);
+	$r = @mysqli_query ($dbc, $q);
 
-// Count the number of returned rows:
-$num = mysqli_num_rows($r);
+	// Count the number of returned rows:
+	$num = mysqli_num_rows($r);
 
-if ($num > 0) { // If it ran OK, display the records.
+	if ($num > 0) { // If it ran OK, display the records.
 
 	// Print how many users there are:
 	echo "<li>There are currently $num employees.</li>\n";
@@ -112,13 +112,12 @@ if ($num > 0) { // If it ran OK, display the records.
 	<form method="POST" action="emp_list.php">
 	<table id="hor-minimalist-a" align="center">
 	';
-	if ($_SESSION['role']="staff_manager") {?>
+	//If the user is "staff_manager" we show the Insert user option
+	if ($role="staff_manager") {?>
 			<td><input type="submit" value="Insert User"  onclick=window.open('./insertuser.php','ventana','width=640,height=600');></td>	
 		<?php
 		} 
-	echo ' 
-	
-	<td><input type="submit" value="Refresh"></td>
+	echo '<td><input type="submit" value="Refresh"></td>
 	<tr>		
 		<td align="left"><b> DNI </b></td>
 		<td align="left"><b> Name </b></td>
@@ -126,14 +125,10 @@ if ($num > 0) { // If it ran OK, display the records.
 		<td align="left"><b> Email </b></td>
 		<td align="left"><b> Phone </b></td>
 		<td align="left"><b> Department </b></td>	
-		<td align="left"><b> Role </b></td>	
-		
-		<td align="right"><b>';  
-		
+		<td align="left"><b> Role </b></td>			
+		<td align="right"><b>';  		
 		echo '</b></td>
-	</tr>
-';
-	
+	</tr>';	
 	// Fetch and print all the records:
 	while ($row = mysqli_fetch_array($r, MYSQLI_NUM)) {
 		echo '<tr>			
@@ -146,90 +141,20 @@ if ($num > 0) { // If it ran OK, display the records.
 			<td align="left">' . $row[6] . '</td>';
 			
 			$id=$row[0];
-			if ($_SESSION['role']="staff_manager") {
+			if ($role="staff_manager") {
 				//We open a new window, passing the DNI as a GET parameter, we'll us it in the WHERE clause'
-				echo '<td align="left"><a href="../menus/emp_edit.php?id=' . $row[0] . '" target="_new">Edit</a></td>';			
-		
+				echo '<td align="left"><a href="../menus/emp_edit.php?id=' . $row[0] . '" target="popup">Edit</a></td>';		
 		}
 			echo '</tr>';
 	}
-
 	echo '</table></form>';
 	mysqli_free_result ($r);	
 
-} else { // If no records were returned.
-	echo '<p class="error">There are currently no registered users.</p>';
-}
-
-mysqli_close($dbc);
-}
-
-
-//LIST ALL TASKS
-function see_tasks($dni) {
-	$page_title = 'View all tasks';
-	echo '<h1>Tasks</h1>';
-
-	require ('../includes/mysqli_connect.php');
-		
-// Define the query:
-	$q = 	"SELECT t.Name, t.Description, t.Time_Start, t.State, e.Name, d.Name AS EMP FROM tasks AS t INNER JOIN employees as e 
-	ON t.Employee = e.DNI 
-	INNER JOIN department as d 
-		ON e.Code_Dep = d.Code ORDER BY e.DNI ";
-	
-
-$r = @mysqli_query ($dbc, $q);
-
-// Count the number of returned rows:
-$num = mysqli_num_rows($r);
-
-if ($num > 0) { // If it ran OK, display the records.
-
-	// Print how many users there are:
-	echo "<p>There are currently $num registered users.</p>\n";
-
-	// Table header:
-	echo '<link rel="stylesheet" href="../style/users_data.css">
-	<form method="POST" action="emp_management.php">
-	<table id="hor-minimalist-a" align="center">
-	<tr>
-		
-		<td align="left"><b> Task </b></td>
-		<td align="left"><b> Description </b></td>
-		<td align="left"><b> Start time </b></td>
-		<td align="left"><b> State </b></td>
-		<td align="left"><b> Phone </b></td>
-		<td align="left"><b> Department </b></td>	
-		<td align="left"><b> Role </b></td>	
-		<td align="left"><b>  </b></td>
-	</tr>
-';
-	
-	// Fetch and print all the records:
-	while ($row = mysqli_fetch_array($r, MYSQLI_NUM)) {
-		echo '<tr>			
-			<td align="left">' . $row[0] . '</td>
-			<td align="left">' . $row[1] . '</td>
-			<td align="left">' . $row[2] . '</td>
-			<td align="left">' . $row[3] . '</td>
-			<td align="left">' . $row[4] . '</td>
-			<td align="left">' . $row[5] . '</td>
-			<td align="left">' . $row[6] . '</td>';
-			
-			echo'</tr>';
+	} else { // If no records were returned.
+		echo '<p class="error">There are currently no registered users.</p>';
 	}
-
-	echo '</table></form>';
-	mysqli_free_result ($r);	
-
-} else { // If no records were returned.
-	echo '<p class="error">There are currently no registered users.</p>';
-}
-
-mysqli_close($dbc);
-
-}
+	mysqli_close($dbc);
+}// End of empList() function
 
 ?>
 

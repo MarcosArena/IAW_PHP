@@ -4,6 +4,7 @@
 
 // Include the header:
 $page_title = 'Login';
+session_start();
 //include ('includes/header.html');
 
 // Print any error messages, if they exist:
